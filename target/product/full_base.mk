@@ -21,7 +21,6 @@
 
 PRODUCT_PACKAGES := \
     libfwdlockengine \
-    OpenWnn \
     libWnnEngDic \
     libWnnJpnDic \
     libwnndict \
@@ -30,6 +29,7 @@ PRODUCT_PACKAGES := \
 
 PRODUCT_PACKAGES += \
     Galaxy4 \
+    Basic \
     HoloSpiralWallpaper \
     LiveWallpapers \
     LiveWallpapersPicker \
@@ -37,7 +37,8 @@ PRODUCT_PACKAGES += \
     NoiseField \
     PhaseBeam \
     VisualizationWallpapers \
-    PhotoTable
+    PhotoTable \
+    Launcher3
 
 # Additional settings used in all AOSP builds
 PRODUCT_PROPERTY_OVERRIDES := \

@@ -380,18 +380,6 @@ else
 MD5SUM:=md5sum
 endif
 
-# In-place sed is done different in linux than OS X
-ifeq ($(HOST_OS),darwin)
-GSED:=$(shell which gsed)
-ifeq ($(GSED),)
-SED_INPLACE:=sed -i ''
-else
-SED_INPLACE:=gsed -i
-endif
-else
-SED_INPLACE:=sed -i
-endif
-
 APICHECK_CLASSPATH := $(HOST_JDK_TOOLS_JAR)
 APICHECK_CLASSPATH := $(APICHECK_CLASSPATH):$(HOST_OUT_JAVA_LIBRARIES)/doclava$(COMMON_JAVA_PACKAGE_SUFFIX)
 APICHECK_CLASSPATH := $(APICHECK_CLASSPATH):$(HOST_OUT_JAVA_LIBRARIES)/jsilver$(COMMON_JAVA_PACKAGE_SUFFIX)
@@ -487,5 +475,8 @@ TARGET_PREBUILT_TAG := android-$(TARGET_ARCH)
 RS_PREBUILT_CLCORE := prebuilts/sdk/renderscript/lib/$(TARGET_ARCH)/libclcore.bc
 RS_PREBUILT_LIBPATH := -L prebuilts/ndk/8/platforms/android-9/arch-$(TARGET_ARCH)/usr/lib
 RS_PREBUILT_COMPILER_RT := prebuilts/sdk/renderscript/lib/$(TARGET_ARCH)/libcompiler_rt.a
+
+# Enforce SELinux policy from CM
+include build/vendor/sepolicy/sepolicy.mk
 
 include $(BUILD_SYSTEM)/dumpvar.mk
