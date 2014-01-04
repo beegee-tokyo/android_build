@@ -451,7 +451,6 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.ShowProgress(0.7, 45)
 
   if OPTIONS.wipe_user_data:
-    script.Print("Formatting /data")
     script.FormatPartition("/data")
 
   script.Print("=============================")
