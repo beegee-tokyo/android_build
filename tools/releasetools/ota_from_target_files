@@ -449,22 +449,18 @@ def WriteFullOTAPackage(input_zip, output_zip):
     script.RunBackup("backup")
     script.Unmount("/system")
 
-  script.ShowProgress(0.5, 0)
+  script.ShowProgress(0.7, 45)
 
   if OPTIONS.wipe_user_data:
     script.Print("Formatting /data")
     script.FormatPartition("/data")
 
-  script.Print("#######################################");
-  script.Print("# _____            __  __  ______     #");
-  script.Print("#/\  __`\  /'\_/`\/\ \/\ \/\__  _\    #");
-  script.Print("#\ \ \/\ \/\  ``  \ \ ` \ \/_/\ \/    #");
-  script.Print("# \ \ \ \ \ \ \__\ \ \ . ` \ \ \ \    #");
-  script.Print("#  \ \ \_\ \ \ \_/\ \ \ \`\ \ \_\ \__ #");
-  script.Print("#   \ \_____\ \_\, \_\ \_\ \_\/\_____\#");
-  script.Print("#    \/_____/\/_/ \/_/\/_/\/_/\/_____/#");
-  script.Print("#                                     #");
-  script.Print("#######################################");
+  script.Print("=============================")
+  script.Print("Welcome to Amai ROM")
+  script.Print("Based on AOSP")
+  script.Print("REPLACE_WITH_VERSION")
+  script.Print("REPLACE_WITH_DEVICE")
+  script.Print("=============================")
 
   if "selinux_fc" in OPTIONS.info_dict:
     WritePolicyConfig(OPTIONS.info_dict["selinux_fc"], output_zip)
@@ -475,6 +471,9 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.UnpackPackageDir("recovery", "/system")
   script.Print("Extracting /system")
   script.UnpackPackageDir("system", "/system")
+  script.Print("Extracting /data")
+  script.AppendExtra("run_program(\"/sbin/busybox\", \"mount\", \"/data\");")
+  script.UnpackPackageDir("data", "/data")
 
   symlinks = CopySystemFiles(input_zip, output_zip)
   script.Print("Symlinking")
@@ -491,18 +490,28 @@ def WriteFullOTAPackage(input_zip, output_zip):
 
   common.CheckSize(boot_img.data, "boot.img", OPTIONS.info_dict)
   common.ZipWriteStr(output_zip, "boot.img", boot_img.data)
-  script.ShowProgress(0.2, 0)
+  script.ShowProgress(1.0, 20)
 
   if OPTIONS.backuptool:
-    script.ShowProgress(0.2, 10)
+#    script.ShowProgress(0.2, 10)
     script.RunBackup("restore")
 
-  script.ShowProgress(0.2, 10)
-  script.Print("Flashing boot.img")
+#  script.ShowProgress(0.2, 10)
+  script.Print("Flashing kernel")
   script.WriteRawImage("/boot", "boot.img")
 
-  script.ShowProgress(0.1, 0)
-  script.Print("Enjoy OMNI ROM!");
+#  script.ShowProgress(0.1, 0)
+  script.Print("Setup Superuser")
+  script.AppendExtra("set_perm(0, 0, 0644, \"/system/app/Superuser.apk\");")
+  script.AppendExtra("set_perm(0, 0, 0644, \"/system/etc/.installed_su_daemon\");")
+  script.AppendExtra("set_perm(0, 0, 0755, \"/system/etc/init.d/99SuperSUDaemon\");")
+  script.AppendExtra("set_perm(0, 0, 0755, \"/system/etc/install-recovery.sh\");")
+  script.AppendExtra("set_perm(0, 0, 06755, \"/system/xbin/daemonsu\");")
+  script.AppendExtra("set_perm(0, 0, 06755, \"/system/xbin/su\");")
+  script.AppendExtra("set_perm(0, 0, 06755, \"/system/bin/.ext/.su\");")
+  script.AppendExtra("set_perm(0, 0, 0777, \"/system/bin/.ext\");")
+  script.AppendExtra("run_program(\"/sbin/rm\", \"-rf\", \"/data/data/android.romstats\");")
+  script.Print("Enjoy Amai ROM!")
   device_specific.FullOTA_InstallEnd()
 
   if OPTIONS.extra_script is not None:
