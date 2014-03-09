@@ -16,16 +16,16 @@
 
 # This is a build configuration for a full-featured build of the
 # Open-Source part of the tree. It's geared toward a US-centric
-# build quite specifically for the emulator, and might not be
+# mips build quite specifically for the emulator, and might not be
 # entirely appropriate to inherit from for on-device configurations.
 
-PRODUCT_PACKAGES := \
-    VoiceDialer \
-    Stk
+$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base_telephony.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/board/generic_mips/device.mk)
 
-PRODUCT_PROPERTY_OVERRIDES := \
-    keyguard.no_require_sim=true \
-    ro.com.android.dataroaming=true
+include $(SRC_TARGET_DIR)/product/emulator.mk
 
-$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/telephony.mk)
+# Overrides
+PRODUCT_NAME := full_mips
+PRODUCT_DEVICE := generic_mips
+PRODUCT_BRAND := Android
+PRODUCT_MODEL := AOSP on MIPS Emulator

@@ -108,6 +108,7 @@ TARGET_GLOBAL_CFLAGS += \
 			$(arch_variant_cflags) \
 			-include $(android_config_h) \
 			-I $(dir $(android_config_h))
+#			-msoft-float -fpic $(PIE_GLOBAL_CFLAGS) \
 
 # This warning causes dalvik not to build with gcc 4.6+ and -Werror.
 # We cannot turn it off blindly since the option is not available
@@ -253,6 +254,8 @@ $(hide) $(PRIVATE_CXX) \
 	$(PRIVATE_TARGET_LIBGCC) \
 	$(if $(filter true,$(PRIVATE_NO_CRT)),,$(PRIVATE_TARGET_CRTEND_SO_O))
 endef
+
+#$(hide) $(PRIVATE_CXX) -nostdlib -Bdynamic $(PIE_EXECUTABLE_TRANSFORM) \
 
 define transform-o-to-executable-inner
 $(hide) $(PRIVATE_CXX) -nostdlib -Bdynamic -fPIE -pie \

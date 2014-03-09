@@ -19,13 +19,13 @@
 # build quite specifically for the emulator, and might not be
 # entirely appropriate to inherit from for on-device configurations.
 
-PRODUCT_PACKAGES := \
-    VoiceDialer \
-    Stk
+$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base_telephony.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/board/generic/device.mk)
 
-PRODUCT_PROPERTY_OVERRIDES := \
-    keyguard.no_require_sim=true \
-    ro.com.android.dataroaming=true
+include $(SRC_TARGET_DIR)/product/emulator.mk
 
-$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/telephony.mk)
+# Overrides
+PRODUCT_NAME := full
+PRODUCT_DEVICE := generic
+PRODUCT_BRAND := Android
+PRODUCT_MODEL := AOSP on ARM Emulator

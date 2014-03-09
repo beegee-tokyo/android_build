@@ -52,6 +52,7 @@ PRODUCT_PACKAGES := \
 	ApiDemos \
 	GestureBuilder \
 	CubeLiveWallpapers \
+	QuickSearchBox \
 	WidgetPreview \
 	librs_jni \
 	ConnectivityTest \
@@ -86,6 +87,8 @@ PRODUCT_COPY_FILES := \
 	frameworks/native/data/etc/android.hardware.camera.autofocus.xml:system/etc/permissions/android.hardware.camera.autofocus.xml \
 	frameworks/av/media/libeffects/data/audio_effects.conf:system/etc/audio_effects.conf \
 	hardware/libhardware_legacy/audio/audio_policy.conf:system/etc/audio_policy.conf
+
+include $(SRC_TARGET_DIR)/product/emulator.mk
 
 $(call inherit-product-if-exists, frameworks/base/data/fonts/fonts.mk)
 $(call inherit-product-if-exists, frameworks/base/data/keyboards/keyboards.mk)
