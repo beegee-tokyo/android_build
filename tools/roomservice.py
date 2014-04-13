@@ -209,7 +209,7 @@ def parse_dependency_file(location):
     dep_file = "omni.dependencies"
     dep_location = '/'.join([location, dep_file])
     if not os.path.isfile(dep_location):
-#        print("WARNING: %s file not found" % dep_location)
+        print("WARNING: %s file not found" % dep_location)
         sys.exit()
     try:
         with open(dep_location, 'r') as f:
